@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anastasia Brow Studio | Premium Beauty</title>
+    
+    <!-- Подключение премиальных шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           CSS-Архитектура: Premium Minimalist Beauty (Vanilla CSS)
+           ========================================================================== */
+        
+        :root {
+            /* Цветовая палитра: теплые, пудровые, кремовые оттенки */
+            --bg-primary: #FCFAF8; /* Алебастровый/кремово-белый */
+            --bg-secondary: #F4EFEA; /* Тонкий пудровый/taupe */
+            --text-main: #3A3532; /* Приглушенный темно-коричневый/серый (не черный) */
+            --text-light: #7A726D;
+            --accent: #B89987; /* Приглушенный бронзовый/розовое золото */
+            --accent-hover: #A08373;
+            
+            /* Типографика */
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+            
+            /* Отступы и скругления */
+            --radius-soft: 12px;
+            --radius-image: 4px;
+            --section-pad: clamp(60px, 10vw, 120px) 0;
+            --container-w: 1200px;
+        }
+
+        /* Глобальные сбросы и базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-main);
+            background-color: var(--bg-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Контейнерная система */
+        .container {
+            max-width: var(--container-w);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-head);
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: clamp(40px, 6vw, 60px);
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* Кнопки */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent);
+            color: #fff;
+            padding: 16px 36px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border-radius: 2px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(184, 153, 135, 0.2);
+        }
+
+        /* ==========================================================================
+           Секции Сайта
+           ========================================================================== */
+
+        /* 1. Header (Навигация) */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(252, 250, 248, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(184, 153, 135, 0.1);
+            transition: padding 0.3s ease;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-style: italic;
+            letter-spacing: 1px;
+            color: var(--text-main);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            color: var(--text-main);
+            transition: color 0.3s;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after { width: 100%; }
+
+        /* Кастомный Select для языков */
+        .lang-select-wrapper {
+            position: relative;
+        }
+        .lang-select {
+            appearance: none;
+            background: transparent;
+            border: 1px solid var(--accent);
+            padding: 6px 24px 6px 12px;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--text-main);
+            border-radius: 2px;
+            cursor: pointer;
+            text-transform: uppercase;
+            outline: none;
+        }
+        .lang-select-wrapper::after {
+            content: '▼';
+            font-size: 0.6rem;
+            color: var(--accent);
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        /* 2. Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-color: var(--bg-secondary);
+            /* Заглушка фона. Пользователь заменит на эстетичное фото */
+            background-image: url('https://images.unsplash.com/photo-1512496015851-a1cbfc38ca69?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(252, 250, 248, 0.4), rgba(252, 250, 248, 0.8));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-main);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        /* 3. About Section */
+        .about { padding: var(--section-pad); }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 400px 400px 0 0; /* Арочная эстетика */
+            object-fit: cover;
+            aspect-ratio: 3/4;
+            /* Пользователь заменит на: src="image_89f866.png" */
+        }
+
+        .about-text p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+        .about-text p:first-of-type::first-letter {
+            font-family: var(--font-head);
+            font-size: 3rem;
+            float: left;
+            margin-inline-end: 12px;
+            line-height: 1;
+            color: var(--accent);
+        }
+
+        /* 4. Services Section */
+        .services {
+            padding: var(--section-pad);
+            background-color: var(--bg-secondary);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            background: var(--bg-primary);
+            padding: 50px 40px;
+            text-align: center;
+            border-radius: var(--radius-soft);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 1px solid rgba(184, 153, 135, 0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.03);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 24px;
+            color: var(--accent);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* 5. Portfolio Section */
+        .portfolio { padding: var(--section-pad); }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-image);
+            aspect-ratio: 1/1;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.08);
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(58, 53, 50, 0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+
+        /* 6. Pricing Section */
+        .pricing {
+            padding: var(--section-pad);
+            background-color: var(--bg-secondary);
+        }
+
+        .pricing-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-item::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 0;
+            width: 100%;
+            border-bottom: 1px dotted var(--accent);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .pricing-name {
+            font-family: var(--font-head);
+            font-size: 1.3rem;
+            background: var(--bg-secondary);
+            padding-inline-end: 16px;
+        }
+
+        .pricing-value {
+            font-family: var(--font-body);
+            font-weight: 500;
+            color: var(--accent);
+            background: var(--bg-secondary);
+            padding-inline-start: 16px;
+            font-size: 1.2rem;
+        }
+
+        /* 7. Booking & Contacts (Complex Integration) */
+        .contact { padding: var(--section-pad); }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        /* Блок А: Календарь (Заглушка для Iframe) */
+        .booking-widget {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-soft);
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            border: 1px dashed var(--accent);
+        }
+        
+        .booking-widget p {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        /* Блок Б: Форма FormSubmit */
+        .premium-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-group { position: relative; }
+
+        .premium-form input,
+        .premium-form textarea {
+            width: 100%;
+            padding: 16px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(58, 53, 50, 0.2);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .premium-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .premium-form input:focus,
+        .premium-form textarea:focus {
+            border-bottom-color: var(--accent);
+        }
+        
+        .premium-form input::placeholder,
+        .premium-form textarea::placeholder {
+            color: #A09A96;
+            font-weight: 300;
+        }
+
+        /* 8. Footer */
+        footer {
+            background-color: var(--text-main);
+            color: var(--bg-primary);
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .social-icon {
+            color: var(--bg-primary);
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-icon:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .social-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+
+        .footer-contact {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            display: inline-block;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            color: rgba(252, 250, 248, 0.5);
+            border-top: 1px solid rgba(252, 250, 248, 0.1);
+            padding-top: 24px;
+        }
+
+        /* ==========================================================================
+           Адаптивность (Mobile-First и Tablet)
+           ========================================================================== */
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        @media (max-width: 992px) {
+            .about-grid, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-image { order: -1; }
+            .booking-widget { min-height: 400px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--bg-primary);
+                flex-direction: column;
+                padding: 40px 0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+                transform: translateY(-150%);
+                transition: transform 0.4s ease;
+                z-index: 999;
+            }
+            
+            .nav-menu.active {
+                transform: translateY(0);
+            }
+
+            .mobile-menu-btn { display: block; }
+            
+            .portfolio-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        }
+
+        /* ==========================================================================
+           RTL (Арабский язык) Стили
+           Логические свойства автоматически зеркалируют макет
+           ========================================================================== */
+        html[dir="rtl"] {
+            font-family: 'Arial', sans-serif; /* Для лучшего отображения арабского */
+        }
+        html[dir="rtl"] h1, 
+        html[dir="rtl"] h2, 
+        html[dir="rtl"] h3,
+        html[dir="rtl"] .logo {
+            font-family: 'Times New Roman', serif;
+        }
+        
+        /* Анимация при скролле */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. HEADER -->
+    <header id="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">Anastasia Brow Studio</a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="#about" class="nav-link" data-i18n="menu_about">О мастере</a>
+                <a href="#services" class="nav-link" data-i18n="menu_services">Услуги</a>
+                <a href="#portfolio" class="nav-link" data-i18n="menu_portfolio">Портфолио</a>
+                <a href="#pricing" class="nav-link" data-i18n="menu_pricing">Прайс</a>
+                <a href="#contact" class="nav-link" data-i18n="menu_contact">Контакты</a>
+                
+                <div class="lang-select-wrapper">
+                    <select class="lang-select" id="languageSelector">
+                        <option value="ru" selected>RU</option>
+                        <option value="ua">UA</option>
+                        <option value="de">DE</option>
+                        <option value="en">EN</option>
+                        <option value="tr">TR</option>
+                        <option value="ar">AR</option>
+                    </select>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero" id="home">
+            <div class="hero-content fade-up">
+                <h1 data-i18n="hero_title">Искусство вашего взгляда</h1>
+                <p data-i18n="hero_subtitle">Премиальный уход за бровями и ресницами, подчеркивающий вашу естественную красоту.</p>
+                <a href="#contact" class="btn-primary" data-i18n="btn_book">Записаться на процедуру</a>
+            </div>
+        </section>
+
+        <!-- 3. ABOUT SECTION -->
+        <section class="about" id="about">
+            <div class="container">
+                <h2 class="fade-up" data-i18n="about_title">О мастере</h2>
+                <p class="section-subtitle fade-up" data-i18n="about_subtitle">Ваш личный эксперт красоты</p>
+                
+                <div class="about-grid">
+                    <div class="about-text fade-up">
+                        <p data-i18n="about_text_1">Анастасия — сертифицированный мастер с 4-летним опытом. Прошла фундаментальные курсы и начала успешную практику в Украине.</p>
+                        <p data-i18n="about_text_2">Мой главный приоритет — абсолютная безопасность, стерильность инструментов и индивидуальный подход. Я не создаю шаблоны, я подчеркиваю архитектуру вашего лица, создавая идеальные линии, которые гармонируют именно с вами.</p>
+                    </div>
+                    <div class="about-image fade-up">
+                        <!-- ВНИМАНИЕ ПОЛЬЗОВАТЕЛЮ: Замените src на "image_89f866.png" после загрузки на GitHub -->
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" alt="Мастер Анастасия">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SERVICES SECTION -->
+        <section class="services" id="services">
+            <div class="container">
+                <h2 class="fade-up" data-i18n="services_title">Наши услуги</h2>
+                <p class="section-subtitle fade-up" data-i18n="services_subtitle">Безупречность в каждой детали</p>
+
+                <div class="services-grid">
+                    <!-- Услуга 1 -->
+                    <div class="service-card fade-up">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </div>
+                        <h3 data-i18n="srv_lam_brow_title">Ламинирование бровей</h3>
+                        <p data-i18n="srv_lam_brow_desc">Долговременная укладка, придающая бровям идеальную форму, объем и послушность на несколько недель.</p>
+                    </div>
+                    <!-- Услуга 2 -->
+                    <div class="service-card fade-up">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                        </div>
+                        <h3 data-i18n="srv_arch_title">Архитектура бровей</h3>
+                        <p data-i18n="srv_arch_desc">Построение идеальной формы бровей с учетом анатомических особенностей строения вашего лица.</p>
+                    </div>
+                    <!-- Услуга 3 -->
+                    <div class="service-card fade-up">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                        </div>
+                        <h3 data-i18n="srv_corr_title">Коррекция</h3>
+                        <p data-i18n="srv_corr_desc">Бережное удаление лишних волосков пинцетом или воском для поддержания чистоты линий.</p>
+                    </div>
+                    <!-- Услуга 4 -->
+                    <div class="service-card fade-up">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <h3 data-i18n="srv_color_title">Окрашивание</h3>
+                        <p data-i18n="srv_color_desc">Индивидуальный подбор оттенка краской или хной для выразительности и насыщенности цвета.</p>
+                    </div>
+                    <!-- Услуга 5 -->
+                    <div class="service-card fade-up">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><path d="M12 3v2"/><path d="M20 5l-1.5 1.5"/><path d="M4 5l1.5 1.5"/></svg>
+                        </div>
+                        <h3 data-i18n="srv_lam_lash_title">Ламинирование ресниц</h3>
+                        <p data-i18n="srv_lam_lash_desc">Изгиб, удлинение и питание натуральных ресниц. Эффект распахнутого взгляда без наращивания.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. PORTFOLIO SECTION -->
+        <section class="portfolio" id="portfolio">
+            <div class="container">
+                <h2 class="fade-up" data-i18n="portfolio_title">Портфолио</h2>
+                <p class="section-subtitle fade-up" data-i18n="portfolio_subtitle">Результаты до и после</p>
+                
+                <div class="portfolio-grid fade-up">
+                    <!-- ВНИМАНИЕ ПОЛЬЗОВАТЕЛЮ: Замените ссылки Unsplash на photo_1_2026-07-14_11-31-52.jpg и т.д. -->
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=800" alt="Работа бровиста 1">
+                        <div class="portfolio-overlay"></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1588514528198-8424c311681a?auto=format&fit=crop&q=80&w=800" alt="Работа бровиста 2">
+                        <div class="portfolio-overlay"></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1629363446864-463d11b33fb6?auto=format&fit=crop&q=80&w=800" alt="Работа бровиста 3">
+                        <div class="portfolio-overlay"></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1599818816568-185b3bc8f7c9?auto=format&fit=crop&q=80&w=800" alt="Работа бровиста 4">
+                        <div class="portfolio-overlay"></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1512496015851-a1cbfc38ca69?auto=format&fit=crop&q=80&w=800" alt="Работа бровиста 5">
+                        <div class="portfolio-overlay"></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1516975080661-41221b6452be?auto=format&fit=crop&q=80&w=800" alt="Работа бровиста 6">
+                        <div class="portfolio-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. PRICING SECTION -->
+        <section class="pricing" id="pricing">
+            <div class="container">
+                <h2 class="fade-up" data-i18n="price_title">Прайс-лист</h2>
+                <p class="section-subtitle fade-up" data-i18n="price_subtitle">Инвестиции в вашу красоту</p>
+
+                <div class="pricing-list fade-up">
+                    <div class="pricing-item">
+                        <span class="pricing-name" data-i18n="srv_lam_brow_title">Ламинирование бровей</span>
+                        <span class="pricing-value">€ 45</span>
+                    </div>
+                    <div class="pricing-item">
+                        <span class="pricing-name" data-i18n="srv_arch_title">Архитектура бровей</span>
+                        <span class="pricing-value">€ 25</span>
+                    </div>
+                    <div class="pricing-item">
+                        <span class="pricing-name" data-i18n="srv_corr_title">Коррекция</span>
+                        <span class="pricing-value">€ 15</span>
+                    </div>
+                    <div class="pricing-item">
+                        <span class="pricing-name" data-i18n="srv_color_title">Окрашивание</span>
+                        <span class="pricing-value">€ 20</span>
+                    </div>
+                    <div class="pricing-item">
+                        <span class="pricing-name" data-i18n="srv_lam_lash_title">Ламинирование ресниц</span>
+                        <span class="pricing-value">€ 50</span>
+                    </div>
+                    <div class="pricing-item">
+                        <span class="pricing-name" data-i18n="price_complex">Комплекс (Архитектура + Коррекция + Окрашивание)</span>
+                        <span class="pricing-value">€ 55</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. BOOKING & CONTACT SECTION -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <h2 class="fade-up" data-i18n="contact_title">Бронирование и Контакты</h2>
+                <p class="section-subtitle fade-up" data-i18n="contact_subtitle">Выберите время или задайте вопрос</p>
+
+                <div class="contact-grid">
+                    
+                    <!-- БЛОК А: ИНТЕГРАЦИЯ КАЛЕНДАРЯ -->
+                    <!-- ВНИМАНИЕ: Так как сайт статический (без БД), динамический календарь реализуется через SaaS. -->
+                    <!-- Зарегистрируйтесь в Setmore.com или YCLIENTS и вставьте их код <iframe> ВМЕСТО div.booking-widget -->
+                    <div class="booking-widget fade-up" id="booking-container">
+                        <h3 data-i18n="book_widget_title" style="margin-bottom: 10px;">Онлайн Запись</h3>
+                        <p data-i18n="book_widget_desc">Здесь будет размещен виджет выбора свободного времени.</p>
+                        <!-- ПРИМЕР КОДА КОТОРЫЙ НУЖНО ВСТАВИТЬ СЮДА: 
+                        <iframe src="https://anastasia.setmore.com" scrolling="no" width="100%" height="600" frameborder="0"></iframe> 
+                        -->
+                    </div>
+
+                    <!-- БЛОК Б: ФОРМА FormSubmit -->
+                    <!-- Форма обрабатывается асинхронно через JS (fetch), чтобы страница не перезагружалась -->
+                    <div class="contact-form-container fade-up">
+                        <form id="ajaxForm" action="https://formsubmit.co/Nastiadelaya@gmail.com" method="POST" class="premium-form">
+                            <!-- Настройки FormSubmit -->
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_subject" value="Новая заявка с сайта Anastasia Brow!">
+                            <input type="hidden" name="_template" value="table">
+                            
+                            <div class="form-group">
+                                <input type="text" name="name" id="formName" required placeholder="Ваше Имя" data-i18n-ph="form_name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" id="formEmail" required placeholder="Email для связи" data-i18n-ph="form_email">
+                            </div>
+                            <div class="form-group">
+                                <textarea name="message" id="formMessage" required placeholder="Ваш вопрос или пожелание..." data-i18n-ph="form_message"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary" id="submitBtn" data-i18n="form_submit">Отправить сообщение</button>
+                            <p id="formStatus" style="display:none; margin-top:15px; font-size:0.9rem; color:var(--accent);"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 8. FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <!-- Telegram -->
+                <a href="https://t.me/+491742933526" target="_blank" class="social-icon" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.11.03-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.88.03-.24.36-.48.98-.74 3.84-1.67 6.4-2.77 7.68-3.3 3.64-1.51 4.4-1.78 4.88-1.79.1 0 .34.02.49.13.13.09.16.21.17.3z"/></svg>
+                </a>
+                <!-- WhatsApp -->
+                <a href="https://wa.me/380759127632" target="_blank" class="social-icon" aria-label="WhatsApp">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+                <!-- Viber -->
+                <a href="viber://chat?number=%2B491742933526" class="social-icon" aria-label="Viber">
+                    <svg viewBox="0 0 24 24"><path d="M21.054 8.016c-.332-2.143-1.954-3.793-4.108-4.086-1.547-.212-6.326-.212-7.872 0-2.155.293-3.777 1.943-4.109 4.086-.251 1.62-.251 6.353 0 7.973.332 2.143 1.954 3.793 4.109 4.086.852.117 2.378.169 3.935.169 1.558 0 3.084-.052 3.937-.169 2.154-.293 3.776-1.943 4.108-4.086.251-1.62.251-6.353 0-7.973zm-3.155 7.904c-.161 1.05-1.026 1.865-2.079 2.008-.857.118-2.613.158-3.82.158-1.206 0-2.962-.04-3.819-.158-1.053-.143-1.918-.958-2.079-2.008-.135-.873-.135-3.328 0-4.202.161-1.05 1.026-1.865 2.079-2.008.857-.118 2.613-.158 3.819-.158 1.207 0 2.963.04 3.82.158 1.053.143 1.918.958 2.079 2.008.135.874.135 3.329 0 4.202zm-5.753-4.498c.451 0 .817-.367.817-.818s-.366-.817-.817-.817-.818.366-.818.817.366.818.818.818zm3.268 0c.452 0 .818-.367.818-.818s-.366-.817-.818-.817-.817.366-.817.817.365.818.817.818zm-6.536 0c.451 0 .818-.367.818-.818s-.367-.817-.818-.817-.818.366-.818.817.367.818.818.818zm4.493 3.52c-.754.38-1.688.38-2.441 0-.173-.087-.384.02-.423.212-.046.223.102.433.313.539.957.482 2.148.482 3.106 0 .211-.106.359-.316.313-.539-.039-.192-.25-.299-.423-.212z"/></svg>
+                </a>
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/anastasiabrow_studio1995" target="_blank" class="social-icon" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+            </div>
+            <a href="tel:+491742933526" class="footer-contact">+49 1742933526</a>
+            <p class="copyright" data-i18n="footer_copy">© 2026 Anastasia Brow Studio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         JAVASCRIPT ЛОГИКА (i18n, Animations, Form Handling, Mobile Menu)
+         ========================================================================== -->
+    <script>
+        // 1. СЛОВАРЬ ПЕРЕВОДОВ (JSON)
+        const translations = {
+            ru: {
+                menu_about: "О мастере", menu_services: "Услуги", menu_portfolio: "Портфолио", menu_pricing: "Прайс", menu_contact: "Контакты",
+                hero_title: "Искусство вашего взгляда",
+                hero_subtitle: "Премиальный уход за бровями и ресницами, подчеркивающий вашу естественную красоту.",
+                btn_book: "Записаться на процедуру",
+                about_title: "О мастере", about_subtitle: "Ваш личный эксперт красоты",
+                about_text_1: "Анастасия — сертифицированный мастер с 4-летним опытом. Прошла фундаментальные курсы и начала успешную практику в Украине.",
+                about_text_2: "Мой главный приоритет — абсолютная безопасность, стерильность инструментов и индивидуальный подход. Я не создаю шаблоны, я подчеркиваю архитектуру вашего лица, создавая идеальные линии, которые гармонируют именно с вами.",
+                services_title: "Наши услуги", services_subtitle: "Безупречность в каждой детали",
+                srv_lam_brow_title: "Ламинирование бровей", srv_lam_brow_desc: "Долговременная укладка, придающая бровям идеальную форму, объем и послушность на несколько недель.",
+                srv_arch_title: "Архитектура бровей", srv_arch_desc: "Построение идеальной формы бровей с учетом анатомических особенностей строения вашего лица.",
+                srv_corr_title: "Коррекция", srv_corr_desc: "Бережное удаление лишних волосков пинцетом или воском для поддержания чистоты линий.",
+                srv_color_title: "Окрашивание", srv_color_desc: "Индивидуальный подбор оттенка краской или хной для выразительности и насыщенности цвета.",
+                srv_lam_lash_title: "Ламинирование ресниц", srv_lam_lash_desc: "Изгиб, удлинение и питание натуральных ресниц. Эффект распахнутого взгляда без наращивания.",
+                portfolio_title: "Портфолио", portfolio_subtitle: "Результаты до и после",
+                price_title: "Прайс-лист", price_subtitle: "Инвестиции в вашу красоту",
+                price_complex: "Комплекс (Архитектура + Коррекция + Окрашивание)",
+                contact_title: "Бронирование и Контакты", contact_subtitle: "Выберите время или задайте вопрос",
+                book_widget_title: "Онлайн Запись", book_widget_desc: "Здесь будет размещен виджет выбора свободного времени.",
+                form_name: "Ваше Имя", form_email: "Email для связи", form_message: "Ваш вопрос или пожелание...", form_submit: "Отправить сообщение",
+                footer_copy: "© 2026 Anastasia Brow Studio. Все права защищены."
+            },
+            en: {
+                menu_about: "About", menu_services: "Services", menu_portfolio: "Portfolio", menu_pricing: "Pricing", menu_contact: "Contact",
+                hero_title: "The Art of Your Gaze",
+                hero_subtitle: "Premium brow and lash care that enhances your natural beauty.",
+                btn_book: "Book an Appointment",
+                about_title: "About the Master", about_subtitle: "Your Personal Beauty Expert",
+                about_text_1: "Anastasia is a certified master with 4 years of experience. She completed fundamental courses and started her successful practice in Ukraine.",
+                about_text_2: "My main priority is absolute safety, instrument sterility, and an individual approach. I don't create templates; I emphasize the architecture of your face, creating perfect lines that harmonize specifically with you.",
+                services_title: "Our Services", services_subtitle: "Flawlessness in every detail",
+                srv_lam_brow_title: "Brow Lamination", srv_lam_brow_desc: "Long-lasting styling giving brows perfect shape, volume, and obedience for weeks.",
+                srv_arch_title: "Brow Architecture", srv_arch_desc: "Building the perfect brow shape taking into account the anatomical features of your face.",
+                srv_corr_title: "Correction", srv_corr_desc: "Careful removal of excess hairs with tweezers or wax to maintain clean lines.",
+                srv_color_title: "Tinting", srv_color_desc: "Individual shade selection with dye or henna for expressiveness and rich color.",
+                srv_lam_lash_title: "Lash Lamination", srv_lam_lash_desc: "Curling, lengthening, and nourishing natural lashes. Open gaze effect without extensions.",
+                portfolio_title: "Portfolio", portfolio_subtitle: "Before and After Results",
+                price_title: "Pricing", price_subtitle: "Investment in your beauty",
+                price_complex: "Complex (Architecture + Correction + Tinting)",
+                contact_title: "Booking & Contacts", contact_subtitle: "Choose a time or ask a question",
+                book_widget_title: "Online Booking", book_widget_desc: "The available time selection widget will be placed here.",
+                form_name: "Your Name", form_email: "Contact Email", form_message: "Your question or request...", form_submit: "Send Message",
+                footer_copy: "© 2026 Anastasia Brow Studio. All rights reserved."
+            },
+            ua: {
+                menu_about: "Про майстра", menu_services: "Послуги", menu_portfolio: "Портфоліо", menu_pricing: "Прайс", menu_contact: "Контакти",
+                hero_title: "Мистецтво вашого погляду",
+                hero_subtitle: "Преміальний догляд за бровами та віями, що підкреслює вашу природну красу.",
+                btn_book: "Записатися на процедуру",
+                about_title: "Про майстра", about_subtitle: "Ваш особистий експерт краси",
+                about_text_1: "Анастасія — сертифікований майстер з 4-річним досвідом. Пройшла фундаментальні курси та розпочала успішну практику в Україні.",
+                about_text_2: "Мій головний пріоритет — абсолютна безпека, стерильність інструментів та індивідуальний підхід. Я не створюю шаблони, я підкреслюю архітектуру вашого обличчя, створюючи ідеальні лінії, які гармоніюють саме з вами.",
+                services_title: "Наші послуги", services_subtitle: "Бездоганність у кожній деталі",
+                srv_lam_brow_title: "Ламінування брів", srv_lam_brow_desc: "Довготривала укладка, що надає бровам ідеальної форми, об'єму та слухняності на кілька тижнів.",
+                srv_arch_title: "Архітектура брів", srv_arch_desc: "Побудова ідеальної форми брів з урахуванням анатомічних особливостей будови вашого обличчя.",
+                srv_corr_title: "Корекція", srv_corr_desc: "Дбайливе видалення зайвих волосків пінцетом або віском для підтримки чистоти ліній.",
+                srv_color_title: "Фарбування", srv_color_desc: "Індивідуальний підбір відтінку фарбою або хною для виразності та насиченості кольору.",
+                srv_lam_lash_title: "Ламінування вій", srv_lam_lash_desc: "Вигин, подовження та живлення натуральних вій. Ефект розкритого погляду без нарощування.",
+                portfolio_title: "Портфоліо", portfolio_subtitle: "Результати до та після",
+                price_title: "Прайс-лист", price_subtitle: "Інвестиції у вашу красу",
+                price_complex: "Комплекс (Архітектура + Корекція + Фарбування)",
+                contact_title: "Бронювання та Контакти", contact_subtitle: "Оберіть час або поставте запитання",
+                book_widget_title: "Онлайн Запис", book_widget_desc: "Тут буде розміщено віджет вибору вільного часу.",
+                form_name: "Ваше Ім'я", form_email: "Email для зв'язку", form_message: "Ваше запитання або побажання...", form_submit: "Надіслати повідомлення",
+                footer_copy: "© 2026 Anastasia Brow Studio. Всі права захищені."
+            },
+            de: {
+                menu_about: "Über mich", menu_services: "Leistungen", menu_portfolio: "Portfolio", menu_pricing: "Preise", menu_contact: "Kontakt",
+                hero_title: "Die Kunst Ihres Blicks",
+                hero_subtitle: "Premium Augenbrauen- und Wimpernpflege, die Ihre natürliche Schönheit unterstreicht.",
+                btn_book: "Termin buchen",
+                about_title: "Über die Meisterin", about_subtitle: "Ihr persönlicher Beauty-Experte",
+                about_text_1: "Anastasia ist eine zertifizierte Meisterin mit 4 Jahren Erfahrung. Sie hat Grundkurse absolviert und ihre erfolgreiche Praxis in der Ukraine begonnen.",
+                about_text_2: "Meine oberste Priorität ist absolute Sicherheit, Instrumentensterilität und ein individueller Ansatz. Ich erstelle keine Vorlagen; ich betone die Architektur Ihres Gesichts und kreiere perfekte Linien, die genau mit Ihnen harmonieren.",
+                services_title: "Unsere Leistungen", services_subtitle: "Makellosigkeit in jedem Detail",
+                srv_lam_brow_title: "Augenbrauen-Laminierung", srv_lam_brow_desc: "Lang anhaltendes Styling, das den Brauen für Wochen perfekte Form, Volumen und Gehorsam verleiht.",
+                srv_arch_title: "Augenbrauen-Architektur", srv_arch_desc: "Aufbau der perfekten Brauenform unter Berücksichtigung der anatomischen Merkmale Ihres Gesichts.",
+                srv_corr_title: "Korrektur", srv_corr_desc: "Sorgfältige Entfernung überschüssiger Härchen mit Pinzette oder Wachs zur Erhaltung sauberer Linien.",
+                srv_color_title: "Färben", srv_color_desc: "Individuelle Farbtonauswahl mit Farbe oder Henna für Ausdruckskraft und satte Farbe.",
+                srv_lam_lash_title: "Wimpern-Laminierung", srv_lam_lash_desc: "Schwung, Verlängerung und Pflege natürlicher Wimpern. Offener-Blick-Effekt ohne Verlängerungen.",
+                portfolio_title: "Portfolio", portfolio_subtitle: "Vorher-Nachher Ergebnisse",
+                price_title: "Preise", price_subtitle: "Eine Investition in Ihre Schönheit",
+                price_complex: "Komplex (Architektur + Korrektur + Färben)",
+                contact_title: "Buchung & Kontakt", contact_subtitle: "Wählen Sie eine Zeit oder stellen Sie eine Frage",
+                book_widget_title: "Online-Buchung", book_widget_desc: "Hier wird das Widget zur Auswahl der verfügbaren Zeit platziert.",
+                form_name: "Ihr Name", form_email: "Kontakt-Email", form_message: "Ihre Frage oder Bitte...", form_submit: "Nachricht senden",
+                footer_copy: "© 2026 Anastasia Brow Studio. Alle Rechte vorbehalten."
+            },
+            tr: {
+                menu_about: "Hakkımda", menu_services: "Hizmetler", menu_portfolio: "Portfolyo", menu_pricing: "Fiyatlar", menu_contact: "İletişim",
+                hero_title: "Bakışınızın Sanatı",
+                hero_subtitle: "Doğal güzelliğinizi vurgulayan premium kaş ve kirpik bakımı.",
+                btn_book: "Randevu Al",
+                about_title: "Uzman Hakkında", about_subtitle: "Kişisel Güzellik Uzmanınız",
+                about_text_1: "Anastasia 4 yıllık deneyime sahip sertifikalı bir uzmandır. Temel eğitimlerini tamamlamış ve başarılı pratiğine Ukrayna'da başlamıştır.",
+                about_text_2: "Önceliğim mutlak güvenlik, alet sterilliği ve bireysel bir yaklaşımdır. Şablonlar oluşturmuyorum; yüzünüzün mimarisini vurgulayarak özellikle sizinle uyumlu mükemmel çizgiler yaratıyorum.",
+                services_title: "Hizmetlerimiz", services_subtitle: "Her detayda kusursuzluk",
+                srv_lam_brow_title: "Kaş Laminasyonu", srv_lam_brow_desc: "Kaşlara haftalarca mükemmel şekil, hacim ve itaat veren uzun süreli şekillendirme.",
+                srv_arch_title: "Kaş Mimarisi", srv_arch_desc: "Yüzünüzün anatomik özelliklerini dikkate alarak mükemmel kaş şeklinin oluşturulması.",
+                srv_corr_title: "Düzeltme", srv_corr_desc: "Temiz çizgileri korumak için fazla tüylerin cımbız veya ağda ile dikkatlice alınması.",
+                srv_color_title: "Renklendirme", srv_color_desc: "İfade gücü ve zengin renk için boya veya kına ile kişisel ton seçimi.",
+                srv_lam_lash_title: "Kirpik Laminasyonu", srv_lam_lash_desc: "Doğal kirpiklerin kıvrılması, uzatılması ve beslenmesi. İpek kirpik olmadan açık bakış etkisi.",
+                portfolio_title: "Portfolyo", portfolio_subtitle: "Öncesi ve Sonrası Sonuçları",
+                price_title: "Fiyat Listesi", price_subtitle: "Güzelliğinize yatırım",
+                price_complex: "Kompleks (Mimari + Düzeltme + Renklendirme)",
+                contact_title: "Rezervasyon & İletişim", contact_subtitle: "Bir zaman seçin veya soru sorun",
+                book_widget_title: "Online Rezervasyon", book_widget_desc: "Uygun zaman seçimi aracı buraya yerleştirilecektir.",
+                form_name: "Adınız", form_email: "İletişim E-postası", form_message: "Sorunuz veya isteğiniz...", form_submit: "Mesaj Gönder",
+                footer_copy: "© 2026 Anastasia Brow Studio. Tüm hakları saklıdır."
+            },
+            ar: {
+                menu_about: "عن الخبيرة", menu_services: "الخدمات", menu_portfolio: "معرض الأعمال", menu_pricing: "الأسعار", menu_contact: "اتصل بنا",
+                hero_title: "فن نظرتك",
+                hero_subtitle: "عناية متميزة بالحواجب والرموش تبرز جمالك الطبيعي.",
+                btn_book: "احجز موعداً",
+                about_title: "عن الخبيرة", about_subtitle: "خبير الجمال الشخصي الخاص بك",
+                about_text_1: "أناستاسيا خبيرة معتمدة تتمتع بخبرة 4 سنوات. أكملت الدورات الأساسية وبدأت ممارستها الناجحة في أوكرانيا.",
+                about_text_2: "أولويتي الرئيسية هي السلامة المطلقة، وتعقيم الأدوات، والنهج الفردي. أنا لا أقوم بإنشاء قوالب؛ بل أبرز بنية وجهك، وأنشئ خطوطًا مثالية تتناغم معك تحديدًا.",
+                services_title: "خدماتنا", services_subtitle: "خلو من العيوب في كل التفاصيل",
+                srv_lam_brow_title: "تصفيح الحواجب", srv_lam_brow_desc: "تصفيف يدوم طويلاً يمنح الحواجب شكلًا مثاليًا وكثافة وطاعة لأسابيع.",
+                srv_arch_title: "هندسة الحواجب", srv_arch_desc: "بناء شكل الحاجب المثالي مع مراعاة السمات التشريحية لوجهك.",
+                srv_corr_title: "تصحيح", srv_corr_desc: "إزالة دقيقة للشعر الزائد بالملقط أو الشمع للحفاظ على خطوط نظيفة.",
+                srv_color_title: "تلوين", srv_color_desc: "اختيار درجة لون فردية باستخدام الصبغة أو الحناء للتعبير واللون الغني.",
+                srv_lam_lash_title: "تصفيح الرموش", srv_lam_lash_desc: "تجعيد وإطالة وتغذية الرموش الطبيعية. تأثير النظرة المفتوحة بدون وصلات.",
+                portfolio_title: "معرض الأعمال", portfolio_subtitle: "النتائج قبل وبعد",
+                price_title: "الأسعار", price_subtitle: "استثمار في جمالك",
+                price_complex: "مركب (هندسة + تصحيح + تلوين)",
+                contact_title: "الحجز والاتصال", contact_subtitle: "اختر وقتاً أو اطرح سؤالاً",
+                book_widget_title: "الحجز عبر الإنترنت", book_widget_desc: "سيتم وضع أداة اختيار الوقت المتاح هنا.",
+                form_name: "اسمك", form_email: "البريد الإلكتروني للاتصال", form_message: "سؤالك أو طلبك...", form_submit: "إرسال رسالة",
+                footer_copy: "© 2026 استوديو أناستاسيا للحواجب. كل الحقوق محفوظة."
+            }
+        };
+
+        // 2. ЛОГИКА МУЛЬТИЯЗЫЧНОСТИ И RTL
+        const langSelector = document.getElementById('languageSelector');
+        const htmlElement = document.documentElement;
+
+        function changeLanguage(lang) {
+            // Переключение направления текста для Арабского
+            if (lang === 'ar') {
+                htmlElement.setAttribute('dir', 'rtl');
+                htmlElement.setAttribute('lang', 'ar');
+            } else {
+                htmlElement.setAttribute('dir', 'ltr');
+                htmlElement.setAttribute('lang', lang);
+            }
+
+            // Перевод textContent для обычных тегов
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            // Перевод placeholder для инпутов
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (translations[lang] && translations[lang][key]) {
+                    el.setAttribute('placeholder', translations[lang][key]);
+                }
+            });
+        }
+
+        langSelector.addEventListener('change', (e) => changeLanguage(e.target.value));
+
+        // 3. АНИМАЦИИ ПРИ СКРОЛЛЕ (Intersection Observer)
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Анимация только 1 раз
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // 4. МОБИЛЬНОЕ МЕНЮ
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Закрыть меню при клике на ссылку
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => navMenu.classList.remove('active'));
+        });
+
+        // 5. ПЕРЕХВАТ ОТПРАВКИ ФОРМЫ (AJAX/Fetch) - Без перезагрузки SPA
+        const form = document.getElementById('ajaxForm');
+        const formStatus = document.getElementById('formStatus');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Останавливаем стандартный редирект на FormSubmit
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    formStatus.style.display = 'block';
+                    formStatus.style.color = 'green';
+                    formStatus.textContent = 'Сообщение успешно отправлено! Анастасия свяжется с вами.';
+                    form.reset();
+                } else {
+                    throw new Error('Сетевая ошибка');
+                }
+            } catch (error) {
+                formStatus.style.display = 'block';
+                formStatus.style.color = 'red';
+                formStatus.textContent = 'Ошибка отправки. Пожалуйста, попробуйте позже или напишите в мессенджеры.';
+            } finally {
+                // Возвращаем исходный текст кнопки согласно выбранному языку
+                const currentLang = langSelector.value;
+                submitBtn.textContent = translations[currentLang]['form_submit'];
+                submitBtn.disabled = false;
+                
+                // Скрываем статус через 5 секунд
+                setTimeout(() => { formStatus.style.display = 'none'; }, 5000);
+            }
+        });
+
+    </script>
+</body>
+</html>
