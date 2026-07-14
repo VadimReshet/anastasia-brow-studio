@@ -413,11 +413,10 @@
             gap: 60px;
         }
 
-        /* Блок А: Календарь (Заглушка для Iframe) */
+        /* Блок А: Календарь (Интеграция Setmore) */
         .booking-widget {
             background: var(--bg-secondary);
             border-radius: var(--radius-soft);
-            padding: 40px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -425,6 +424,7 @@
             align-items: center;
             min-height: 500px;
             border: 1px dashed var(--accent);
+            overflow: hidden; /* Чтобы iframe не выходил за рамки */
         }
         
         .booking-widget p {
@@ -776,21 +776,16 @@
                 <div class="contact-grid">
                     
                     <!-- БЛОК А: ИНТЕГРАЦИЯ КАЛЕНДАРЯ -->
-                    <div class="booking-widget fade-up" id="booking-container">
-                        <h3 data-i18n="book_widget_title" style="margin-bottom: 10px;">Онлайн Запись</h3>
-                        <p data-i18n="book_widget_desc">Здесь будет размещен виджет выбора свободного времени.</p>
-                        <!-- ПРИМЕР КОДА КОТОРЫЙ НУЖНО ВСТАВИТЬ СЮДА: 
-                        <iframe src="https://anastasia.setmore.com" scrolling="no" width="100%" height="600" frameborder="0"></iframe> 
-                        -->
+                    <div class="booking-widget fade-up" id="booking-container" style="padding: 0; overflow: hidden;">
+                        <!-- Виджет Setmore интегрирован напрямую! -->
+                        <iframe src="https://anastasiabrowsmaker.setmore.com/anastasiabylaia" width="100%" height="600" frameborder="0" style="border: none;"></iframe>
                     </div>
 
                     <!-- БЛОК Б: ФОРМА FormSubmit -->
                     <div class="contact-form-container fade-up">
-                        <!-- ВРЕМЕННО УБРАН id="ajaxForm" ДЛЯ АКТИВАЦИИ EMAIL -->
-                        <form action="https://formsubmit.co/nastiadelaya@gmail.com" method="POST" class="premium-form">
+                        <!-- ВОЗВРАЩЕН id="ajaxForm" С УМНЫМ ФОЛБЭКОМ -->
+                        <form id="ajaxForm" action="https://formsubmit.co/nastiadelaya@gmail.com" method="POST" class="premium-form">
                             <!-- Настройки FormSubmit -->
-                            <!-- ВРЕМЕННО УБРАНА ОТМЕНА КАПЧИ ДЛЯ АКТИВАЦИИ -->
-                            <!-- <input type="hidden" name="_captcha" value="false"> -->
                             <input type="hidden" name="_subject" value="Новая заявка с сайта Anastasia Brow!">
                             <input type="hidden" name="_template" value="table">
                             
@@ -1043,7 +1038,6 @@
         const formStatus = document.getElementById('formStatus');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Проверка if (form) защищает скрипт от ошибки, пока мы убрали id="ajaxForm" для активации
         if (form) {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault(); // Останавливаем стандартный редирект на FormSubmit
@@ -1065,20 +1059,24 @@
                         formStatus.textContent = 'Сообщение успешно отправлено! Анастасия свяжется с вами.';
                         form.reset();
                     } else {
-                        throw new Error('Сетевая ошибка');
+                        throw new Error('API Error');
                     }
                 } catch (error) {
+                    // Умный фолбэк для первой отправки (когда сервис требует капчу или активацию)
+                    form.target = "_blank"; // открываем капчу/активацию в новой вкладке
+                    form.submit(); // отправляем стандартным способом HTML
+                    
                     formStatus.style.display = 'block';
-                    formStatus.style.color = 'red';
-                    formStatus.textContent = 'Ошибка отправки. Пожалуйста, попробуйте позже или напишите в мессенджеры.';
+                    formStatus.style.color = 'var(--text-main)';
+                    formStatus.textContent = 'Открываем безопасную страницу подтверждения... После подтверждения (единоразово) заявки будут отправляться мгновенно.';
                 } finally {
                     // Возвращаем исходный текст кнопки согласно выбранному языку
                     const currentLang = langSelector.value;
                     submitBtn.textContent = translations[currentLang]['form_submit'];
                     submitBtn.disabled = false;
                     
-                    // Скрываем статус через 5 секунд
-                    setTimeout(() => { formStatus.style.display = 'none'; }, 5000);
+                    // Скрываем статус через 8 секунд
+                    setTimeout(() => { formStatus.style.display = 'none'; }, 8000);
                 }
             });
         }
